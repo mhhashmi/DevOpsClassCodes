@@ -1,0 +1,32 @@
+pipeline{
+    agent any
+    stages{
+        stage("checkout by Hadi"){
+            steps{
+                git url: "https://github.com/akshu20791/DevOpsClassCodes"
+            }
+        }
+        stage("hashmi-compile"){
+            steps{
+               sh "mvn compile"
+            }
+        }
+        stage("hashmi-test"){
+            steps{
+                sh "mvn test"
+            }
+        }
+        stage("hashmi-qa"){
+            steps{
+                sh "mvn pmd:pmd"
+                recordIssues(tools: [pmdParser()])   
+            }
+        }
+        stage("hashmi-package"){
+            steps{
+                sh "mvn package"
+            }
+        }
+    }
+    
+}
